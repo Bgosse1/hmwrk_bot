@@ -11,6 +11,9 @@ class Home extends Component {
     message: "Currently there are no assignments"
   };
 
+  componentDidMount() {
+    this.getAssignments();
+  }
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -22,7 +25,7 @@ class Home extends Component {
     API.getAssignments()
       .then(res =>
         this.setState({
-          assignments: res.data.items
+          assignments: res.data
         })
       )
       .catch(() =>
@@ -50,27 +53,20 @@ class Home extends Component {
         </Row>
         <Row>
           <Col size="md-12 sm-12">
+            {console.log(this.state.assignments)}
             {this.state.assignments.length ? (
               <List>
                 {this.state.assignments.map(assignment => (
-                    <Assignment />
-                //   <Book
-                //     key={book.id}
-                //     title={book.volumeInfo.title}
-                //     subtitle={book.volumeInfo.subtitle}
-                //     link={book.volumeInfo.infoLink}
-                //     authors={book.volumeInfo.authors.join(", ")}
-                //     description={book.volumeInfo.description}
-                //     image={book.volumeInfo.imageLinks.thumbnail}
-                //     Button={() => (
-                //       <button
-                //         onClick={() => this.handleSaveBook(book.id)}
-                //         className="btn btn-primary ml-2"
-                //       >
-                //         Save
-                //       </button>
-                //     )}
-                //   />
+                  <Assignment
+                    key={assignment._id}
+                    assignmentName={assignment.assignmentName}
+                    assignmentDetails={assignment.assignmentDetails}
+                    assignmentLink={assignment.assignmentLink}
+                    completed={assignment.completed}
+                    dueDate={assignment.dueDate}
+                    isRequired={assignment.isRequired}
+                    type={assignment.type}
+                  />
                 ))}
               </List>
             ) : (
