@@ -66,6 +66,14 @@ class Home extends Component {
                     dueDate={assignment.dueDate}
                     isRequired={assignment.isRequired}
                     type={assignment.type}
+                    Button={() => (
+                      <button
+                        onClick={() => this.handleUpdateAssignment(assignment._id)}
+                        className="btn btn-primary ml-2"
+                      >
+                        Edit
+                      </button>
+                    )}
                   />
                 ))}
               </List>

@@ -10,8 +10,8 @@ class Assignment extends Component {
         <Row className="flex-wrap-reverse">
           <Col size="md-8">
             <h3 className="font-italic">{this.props.assignmentName}</h3>
-            {this.props.assignmentName && (
-              <h5 className="font-italic">{this.props.assignmentName}</h5>
+            {this.props.type && (
+              <h5 className="font-italic">{this.props.type}</h5>
             )}
           </Col>
            <Col size="md-4">
@@ -24,12 +24,13 @@ class Assignment extends Component {
               >
                 View
               </a>
+              <this.props.Button />
             </div>
           </Col>
         </Row>
         <Row>
           <Col size="md-6">
-            <p className="font-italic small">Written by {this.props.isRequired}</p>
+            <p className="font-italic small">{this.props.isRequired ? "Required" : "Optional"}</p>
           </Col>
         </Row>
         <Row>
