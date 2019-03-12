@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const assignmentSchema = new Schema({
-  title: { type: String, required: true },
-  subtitle: { type: String },
-  authors: { type: [String], required: true },
-  link: { type: String, required: true },
-  description: { type: String, required: true },
-  image: { type: String, required: true },
-  googleId: { type: String, required: true, unique: true }
+  assignmentName: { type: String, required: true },
+  type: { type: String },
+  completed: { type: Boolean, required: true },
+  dueDate: { type: Date, required: true },
+  isRequired: { type: Boolean, required: true },
+  assignmentDetails: { type: String, required: true },
+  assignmentLink: { type: String, required: true }
 });
 
-const Assignment = mongoose.model("Book", assignmentSchema);
+const Assignment = mongoose.model("Assignment", assignmentSchema);
 
 module.exports = Assignment;
