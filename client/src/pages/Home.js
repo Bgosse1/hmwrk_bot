@@ -4,13 +4,13 @@ import Jumbotron from "../components/Jumbotron";
 import { List } from "../components/List";
 import API from "../utils/API";
 import Assignment from "../components/Assignment";
-import { Link, Route } from "react-router-dom";
-import addAssignment from "../components/addAssignment";
+import AddAssignment from "../components/addAssignment";
 
 class Home extends Component {
   state = {
     assignments: [],
     message: "Currently there are no assignments",
+    show: false
   };
 
   componentDidMount() {
@@ -38,6 +38,10 @@ class Home extends Component {
       );
   };
 
+  handleShowForm = () => {
+    this.setState({ show: !this.state.show });
+  };
+
   render() {
     return (
       <Container>
@@ -55,18 +59,16 @@ class Home extends Component {
         </Row>
         <Row>
           <Col size="md-12 sm-12">
-            <Link
-              to={`${this.props.match.url}/add`}
-              role="button"
-              className="btn btn-primary mb-4"
-            >
-              Add Assignment
-            </Link>
-            <Route
-              exact
-              path={`${this.props.match.url}/add`}
-              component={addAssignment}
-            />
+            {this.state.show ? (
+              <AddAssignment handleShowForm={this.handleShowForm}  getAssignments={this.getAssignments}/>
+            ) :  (
+              <button
+                onClick={() => this.handleShowForm()}
+                className="btn btn-primary mb-4"
+              >
+                Add Assignment
+              </button>
+            )}
           </Col>
         </Row>
         <Row>

@@ -8,7 +8,6 @@ export default {
     return axios.delete("/api/assignments/" + id);
   },
   saveAssignment: function(assignmentData) {
-    console.log("Hello", assignmentData);
     return axios.post("/api/assignments", assignmentData);
   }
 };

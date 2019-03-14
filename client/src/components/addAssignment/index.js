@@ -32,7 +32,7 @@ class addAssignment extends Component {
       assignmentDetails: this.state.assignmentDetails,
       assignmentLink: this.state.assignmentLink
     })
-      .then(res =>
+      .then(res => {
         this.setState({
           assignmentName: "",
           type: "",
@@ -41,6 +41,8 @@ class addAssignment extends Component {
           assignmentDetails: "",
           assignmentLink: ""
         })
+        this.props.getAssignments();
+      }
       )
       .catch(err => console.log(err));
   };
@@ -93,9 +95,9 @@ class addAssignment extends Component {
         <FormBtn onClick={this.handleCreateAssignment}>
           Create Assignment
         </FormBtn>
-        <Link to="/home" role="button" className="btn btn-danger mb-4">
+        <button onClick={() => this.props.handleShowForm()} className="btn btn-danger mb-4">
           Cancel
-        </Link>
+        </button>
       </form>
     );
   }
