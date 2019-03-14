@@ -4,11 +4,13 @@ import Jumbotron from "../components/Jumbotron";
 import { List } from "../components/List";
 import API from "../utils/API";
 import Assignment from "../components/Assignment";
+import AddAssignment from "../components/addAssignment";
 
 class Home extends Component {
   state = {
     assignments: [],
-    message: "Currently there are no assignments"
+    message: "Currently there are no assignments",
+    show: false
   };
 
   componentDidMount() {
@@ -36,6 +38,10 @@ class Home extends Component {
       );
   };
 
+  handleShowForm = () => {
+    this.setState({ show: !this.state.show });
+  };
+
   render() {
     return (
       <Container>
@@ -49,6 +55,20 @@ class Home extends Component {
                 You can add, update or delete assignments
               </h2>
             </Jumbotron>
+          </Col>
+        </Row>
+        <Row>
+          <Col size="md-12 sm-12">
+            {this.state.show ? (
+              <AddAssignment handleShowForm={this.handleShowForm}  getAssignments={this.getAssignments}/>
+            ) :  (
+              <button
+                onClick={() => this.handleShowForm()}
+                className="btn btn-primary mb-4"
+              >
+                Add Assignment
+              </button>
+            )}
           </Col>
         </Row>
         <Row>
@@ -68,7 +88,9 @@ class Home extends Component {
                     type={assignment.type}
                     Button={() => (
                       <button
-                        onClick={() => this.handleUpdateAssignment(assignment._id)}
+                        onClick={() =>
+                          this.handleUpdateAssignment(assignment._id)
+                        }
                         className="btn btn-primary ml-2"
                       >
                         Edit
