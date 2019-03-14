@@ -5,12 +5,15 @@ import { List } from "../components/List";
 import API from "../utils/API";
 import Assignment from "../components/Assignment";
 import AddAssignment from "../components/addAssignment";
+import MyModal from "../components/Modal";
 
 class Home extends Component {
   state = {
     assignments: [],
     message: "Currently there are no assignments",
-    show: false
+    show: false,
+    modal: false,
+    selectedAssignment: {},
   };
 
   componentDidMount() {
@@ -21,6 +24,10 @@ class Home extends Component {
     this.setState({
       [name]: value
     });
+  };
+
+  handleUpdateAssignment = id => {
+    console.log(id);
   };
 
   getAssignments = () => {
@@ -42,6 +49,24 @@ class Home extends Component {
     this.setState({ show: !this.state.show });
   };
 
+  handleShowModal = (id) => {
+    const assignment = this.state.assignments.find(assignment => assignment._id === id);
+    this.setState({ 
+      modal: true, 
+      selectedAssignment: assignment,
+      assignmentName: assignment.assignmentName,
+      type: assignment.type,
+      dueDate: assignment.dueDate,
+      isRequired: assignment.isRequired,
+      assignmentDetails: assignment.assignmentDetails,
+      assignmentLink: assignment.assignmentDetails,
+      completed: false });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modal: false });
+  };
+
   render() {
     return (
       <Container>
@@ -60,8 +85,11 @@ class Home extends Component {
         <Row>
           <Col size="md-12 sm-12">
             {this.state.show ? (
-              <AddAssignment handleShowForm={this.handleShowForm}  getAssignments={this.getAssignments}/>
-            ) :  (
+              <AddAssignment
+                handleShowForm={this.handleShowForm}
+                getAssignments={this.getAssignments}
+              />
+            ) : (
               <button
                 onClick={() => this.handleShowForm()}
                 className="btn btn-primary mb-4"
@@ -79,7 +107,7 @@ class Home extends Component {
                 {this.state.assignments.map(assignment => (
                   <Assignment
                     key={assignment._id}
-                    assignmentName={assignment.assignmentName}
+                    assignmentName={this.assignmentName}
                     assignmentDetails={assignment.assignmentDetails}
                     assignmentLink={assignment.assignmentLink}
                     completed={assignment.completed}
@@ -88,9 +116,7 @@ class Home extends Component {
                     type={assignment.type}
                     Button={() => (
                       <button
-                        onClick={() =>
-                          this.handleUpdateAssignment(assignment._id)
-                        }
+                        onClick={() => this.handleShowModal(assignment._id)}
                         className="btn btn-primary ml-2"
                       >
                         Edit
@@ -104,6 +130,19 @@ class Home extends Component {
             )}
           </Col>
         </Row>
+        {/* {this.state.modal ? (
+          <MyModal
+            modal={this.state.modal}
+            hideModal={this.handleCloseModal}
+            handleInputChange = {this.state.handleInputChange}
+          />
+        ) : (
+          <MyModal 
+          modal={this.state.modal} 
+          hideModal={this.handleCloseModal}
+          selectedAssignment={this.state.selectedAssignment}
+          handleInputChange = {this.handleInputChange}/>
+        )} */}
       </Container>
     );
   }
