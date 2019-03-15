@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
 import { Input, TextArea, FormBtn, SelectControl } from "../Form";
-import { Link } from "react-router-dom";
 
 class addAssignment extends Component {
   state = {

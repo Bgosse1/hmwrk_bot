@@ -17,7 +17,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   update: function(req, res) {
-    db.Assignment.findOneAndUpdate({ id: req.params.id }, req.body)
+    db.Assignment.findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbAssignment => res.json(dbAssignment))
       .catch(err => res.status(422).json(err));
   },

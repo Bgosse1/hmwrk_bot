@@ -5,15 +5,15 @@ import { List } from "../components/List";
 import API from "../utils/API";
 import Assignment from "../components/Assignment";
 import AddAssignment from "../components/addAssignment";
-import MyModal from "../components/Modal";
+import { Input, TextArea, SelectControl } from "../components/Form";
+import { Modal, Button } from "react-bootstrap";
 
 class Home extends Component {
   state = {
     assignments: [],
     message: "Currently there are no assignments",
     show: false,
-    modal: false,
-    selectedAssignment: {},
+    modal: false
   };
 
   componentDidMount() {
@@ -49,10 +49,12 @@ class Home extends Component {
     this.setState({ show: !this.state.show });
   };
 
-  handleShowModal = (id) => {
-    const assignment = this.state.assignments.find(assignment => assignment._id === id);
-    this.setState({ 
-      modal: true, 
+  handleShowModal = id => {
+    const assignment = this.state.assignments.find(
+      assignment => assignment._id === id
+    );
+    this.setState({
+      modal: true,
       selectedAssignment: assignment,
       assignmentName: assignment.assignmentName,
       type: assignment.type,
@@ -60,11 +62,41 @@ class Home extends Component {
       isRequired: assignment.isRequired,
       assignmentDetails: assignment.assignmentDetails,
       assignmentLink: assignment.assignmentDetails,
-      completed: false });
+      completed: false,
+      id: assignment._id
+    });
   };
 
   handleCloseModal = () => {
     this.setState({ modal: false });
+  };
+
+  handleDeleteAssignment = id => {
+    API.deleteAssignment(id)
+      .then(res => {
+        this.handleCloseModal();
+        this.getAssignments();
+      })
+      .catch(err => console.log(err));
+  };
+
+  handleUpdateAssignment = event => {
+    event.preventDefault();
+    API.updateAssignment({
+      assignmentName: this.state.assignmentName,
+      type: this.state.type,
+      dueDate: this.state.dueDate,
+      isRequired: this.state.isRequired,
+      assignmentDetails: this.state.assignmentDetails,
+      assignmentLink: this.state.assignmentDetails,
+      completed: false,
+      id: this.state.id
+    })
+      .then(res => {
+        this.handleCloseModal();
+        this.getAssignments();
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -107,7 +139,7 @@ class Home extends Component {
                 {this.state.assignments.map(assignment => (
                   <Assignment
                     key={assignment._id}
-                    assignmentName={this.assignmentName}
+                    assignmentName={assignment.assignmentName}
                     assignmentDetails={assignment.assignmentDetails}
                     assignmentLink={assignment.assignmentLink}
                     completed={assignment.completed}
@@ -130,19 +162,69 @@ class Home extends Component {
             )}
           </Col>
         </Row>
-        {/* {this.state.modal ? (
-          <MyModal
-            modal={this.state.modal}
-            hideModal={this.handleCloseModal}
-            handleInputChange = {this.state.handleInputChange}
-          />
-        ) : (
-          <MyModal 
-          modal={this.state.modal} 
-          hideModal={this.handleCloseModal}
-          selectedAssignment={this.state.selectedAssignment}
-          handleInputChange = {this.handleInputChange}/>
-        )} */}
+        <Modal show={this.state.modal} onHide={this.handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <form>
+            <Input
+              value={this.state.assignmentName}
+              name="assignmentName"
+              placeholder="Assignment Name"
+              onChange={this.handleInputChange}
+            />
+            <SelectControl
+              value={this.state.type}
+              name="type"
+              onChange={this.handleInputChange}
+            >
+              <option defaultValue>Academic or Career?</option>
+              <option value="Academic">Academic</option>
+              <option value="Career">Career</option>
+            </SelectControl>
+            <Input
+              value={this.state.dueDate}
+              name="dueDate"
+              placeholder="Due Date"
+              onChange={this.handleInputChange}
+            />
+            <SelectControl
+              value={this.state.isRequired}
+              name="isRequired"
+              onChange={this.handleInputChange}
+            >
+              <option defaultValue>Optional or Required?</option>
+              <option value="false">Optional</option>
+              <option value="true">Required</option>
+            </SelectControl>
+            <Input
+              value={this.state.assignmentLink}
+              name="assignmentLink"
+              placeholder="Link to the assignment"
+              onChange={this.handleInputChange}
+            />
+            <TextArea
+              value={this.state.assignmentDetails}
+              name="assignmentDetails"
+              placeholder="Details about the assignment"
+              onChange={this.handleInputChange}
+            />
+          </form>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => this.handleDeleteAssignment(this.state.id)}
+            >
+              Delete
+            </Button>
+            <Button
+              variant="primary"
+              onClick={this.handleUpdateAssignment}
+            >
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     );
   }
