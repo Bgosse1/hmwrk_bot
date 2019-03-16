@@ -1,4 +1,5 @@
 module.exports = {
-    Assignment: require("./assignment")
+    Assignment: require("./assignment"),
+    User: require("./user")
   };
   
