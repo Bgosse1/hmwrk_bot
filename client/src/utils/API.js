@@ -11,7 +11,11 @@ export default {
     return axios.post("/api/assignments", assignmentData);
   },
   updateAssignment: function(assignmentData) {
-    console.log(assignmentData.id)
     return axios.put("/api/assignments/" + assignmentData.id, assignmentData);
+  },
+  Authenticated: () => {
+    console.log("in authenticated");
+    return axios.get("/api/authenticate");
   }
+
 };

@@ -17,7 +17,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.getAssignments();
+    API.Authenticated().then(res => this.getAssignments());
   }
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -217,10 +217,7 @@ class Home extends Component {
             >
               Delete
             </Button>
-            <Button
-              variant="primary"
-              onClick={this.handleUpdateAssignment}
-            >
+            <Button variant="primary" onClick={this.handleUpdateAssignment}>
               Save Changes
             </Button>
           </Modal.Footer>
