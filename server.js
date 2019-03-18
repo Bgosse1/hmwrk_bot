@@ -2,8 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const passport = require("passport");
 const mongoose = require("mongoose");
-const routes = require("./routes");
+var cors = require('cors')
 const app = express();
+app.use(cors());
+
+const routes = require("./routes");
+
 
 const PORT = process.env.PORT || 3001;
 
@@ -14,6 +18,7 @@ app.use(express.static("client/build"));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+
 
 app.use(routes);
 require("./passport/passport")();

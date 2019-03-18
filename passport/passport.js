@@ -12,7 +12,7 @@ module.exports = function() {
         callbackURL: keys.githubCallbackUrl.callbackUrl
       },
       function(accessToken, refreshToken, profile, cb) {
-        isAdmin(profile);
+        // isAdmin(profile);
         return cb(null, profile);
       }
     )
@@ -22,7 +22,7 @@ module.exports = function() {
   });
 
   passport.deserializeUser(function(obj, cb) {
-    obj.isAdmin = isAdmin(obj);
+    // obj.isAdmin = isAdmin(obj);
     cb(null, obj);
   });
 };

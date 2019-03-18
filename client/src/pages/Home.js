@@ -17,7 +17,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    API.Authenticated().then(res => this.getAssignments());
+    this.getAssignments();
   }
   handleInputChange = event => {
     const { name, value } = event.target;
