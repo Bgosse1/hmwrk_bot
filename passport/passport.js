@@ -12,7 +12,8 @@ module.exports = function() {
         callbackURL: keys.githubCallbackUrl.callbackUrl
       },
       function(accessToken, refreshToken, profile, cb) {
-        // isAdmin(profile);
+        isAdmin(profile);
+        console.log(profile);
         return cb(null, profile);
       }
     )
@@ -26,12 +27,8 @@ module.exports = function() {
     cb(null, obj);
   });
 };
-
 function isAdmin(profile) {
-  var adminAccountNames = [
-    "Bgosse1",
-    "harrysuk"
-  ];
+  var adminAccountNames = ["Bgosse1", "harrysuk"];
   var admin = false;
   for (var i = 0; i < adminAccountNames.length; i++) {
     if (profile.username === adminAccountNames[i]) {
@@ -39,16 +36,54 @@ function isAdmin(profile) {
     }
   }
   console.log("profile " + profile.username);
-  db.User.findOrCreate({
-    where: { userName: profile.username },
-    defaults: { isAdmin: admin }
-  }).spread(function(user, created) {
-    console.log(
-      user.get({
-        plain: true
+  db.User.findOne({ userName: profile.username }, (err, userMatch) => {
+     if (err) {
+      console.log("err");
+       //return done(null, false);
+     }
+     if (userMatch) {
+       console.log("match", userMatch);
+     } else {
+      const githubUser = new db.User({
+        userName: profile.username,
+        isAdmin: admin
       })
-    );
-    console.log(created);
+      githubUser.save((err, savedUser) => {
+        if(err){
+          console.log("error saving")
+          //return done(null, false);
+        }
+        else{
+          return  savedUser
+        }
+      })
+    }
   });
   return admin;
 }
+
+// function isAdmin(profile) {
+//   var adminAccountNames = [
+//     "Bgosse1",
+//     "harrysuk"
+//   ];
+//   var admin = false;
+//   for (var i = 0; i < adminAccountNames.length; i++) {
+//     if (profile.username === adminAccountNames[i]) {
+//       admin = true;
+//     }
+//   }
+//   console.log("profile " + profile.username);
+//   db.User.findOrCreate({
+//     where: { userName: profile.username },
+//     defaults: { isAdmin: admin }
+//   }).spread(function(user, created) {
+//     console.log(
+//       user.get({
+//         plain: true
+//       })
+//     );
+//     console.log(created);
+//   });
+//   return admin;
+// }

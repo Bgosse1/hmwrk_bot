@@ -16,6 +16,7 @@ export default {
   Authenticated: () => {
     console.log("in authenticated");
     return axios.get("/api/authenticate");
+    // window.location("/api/authenticate");
   }
 
 };
