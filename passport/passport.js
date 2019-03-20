@@ -13,7 +13,7 @@ module.exports = function() {
       },
       function(accessToken, refreshToken, profile, cb) {
         isAdmin(profile);
-        console.log(profile);
+        console.log("profile",profile);
         return cb(null, profile);
       }
     )
@@ -23,7 +23,7 @@ module.exports = function() {
   });
 
   passport.deserializeUser(function(obj, cb) {
-    // obj.isAdmin = isAdmin(obj);
+    obj.isAdmin = isAdmin(obj);
     cb(null, obj);
   });
 };
@@ -62,28 +62,3 @@ function isAdmin(profile) {
   return admin;
 }
 
-// function isAdmin(profile) {
-//   var adminAccountNames = [
-//     "Bgosse1",
-//     "harrysuk"
-//   ];
-//   var admin = false;
-//   for (var i = 0; i < adminAccountNames.length; i++) {
-//     if (profile.username === adminAccountNames[i]) {
-//       admin = true;
-//     }
-//   }
-//   console.log("profile " + profile.username);
-//   db.User.findOrCreate({
-//     where: { userName: profile.username },
-//     defaults: { isAdmin: admin }
-//   }).spread(function(user, created) {
-//     console.log(
-//       user.get({
-//         plain: true
-//       })
-//     );
-//     console.log(created);
-//   });
-//   return admin;
-// }

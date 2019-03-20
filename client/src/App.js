@@ -3,8 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect,
-  withRouter
+  Redirect
 } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
@@ -18,39 +17,26 @@ const Public = () => <h3>Public</h3>;
 const Protected = () => <h3>Protected</h3>;
 
 const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    //axios.get("/",passport.authenticate("github"));
-    //return <Redirect to='/api/authenticate' />
-    // app.get("/login/github", passport.authenticate("github"));
-    // API.Authenticated();
-    //setTimeout(cb, 100);
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
+  user: {},
+  isAdmin: false,
+  authenticate() {
+    axios.get("/api/authenticate/user").then(response => {
+      console.log(response.data);
+      if (!!response.data.user) {
+        console.log("THERE IS A USER");
+        this.user = response.data.user;
+        fakeAuth.isAdmin = response.data.user.isAdmin;
+        console.log("is admin", fakeAuth.user.isAdmin);
+      } else {
+        this.user = {};
+        this.isAdmin = false
+      }
+    });
   }
 };
+
 class Login extends React.Component {
-  state = {
-    redirectToReferrer: false
-  };
-  login = () => {
-    fakeAuth.authenticate(() => {
-      this.setState(() => ({
-        redirectToReferrer: true
-      }));
-    });
-  };
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
-    const { redirectToReferrer } = this.state;
-
-    if (redirectToReferrer === true) {
-      return <Redirect to={from} />;
-    }
-
     return (
       <div>
         <p>You must log in to view the page</p>
@@ -61,7 +47,6 @@ class Login extends React.Component {
         >
           Log in
         </a>
-        {/* <button onClick={this.login}>Log in</button> */}
       </div>
     );
   }
@@ -71,7 +56,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      fakeAuth.isAuthenticated === true ? (
+      fakeAuth.user.isAdmin ? (
         <Component {...props} />
       ) : (
         <Redirect
@@ -85,45 +70,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-const AuthButton = withRouter(({ history }) =>
-  fakeAuth.isAuthenticated ? (
-    <p>
-      Welcome!{" "}
-      <button
-        onClick={() => {
-          fakeAuth.signout(() => history.push("/"));
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
-  )
-);
-
 class App extends Component {
-  state = {
-    loggedIn: false,
-    user: null
-  }
-
   componentDidMount() {
-    axios.get("/api/authenticate/user").then(response => {
-      console.log(response.data);
-      if (!!response.data.user) {
-        console.log("THERE IS A USER");
-        this.setState({
-          loggedIn: true,
-          user: response.data.user
-        });
-      } else {
-        this.setState({
-          loggedIn: false,
-          user: null
-        });
-      }
-    });
+    fakeAuth.authenticate();
   }
 
   render() {
@@ -133,7 +82,8 @@ class App extends Component {
           <Nav />
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/home" component={Home} />
+            {/* <Route path="/home" component={Home} /> */}
+            <PrivateRoute path="/home" component={Home} />
             <Route path="/public" component={Public} />
             <Route path="/login" component={Login} />
             <PrivateRoute path="/protected" component={Protected} />
