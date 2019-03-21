@@ -16,25 +16,6 @@ import passport from "passport";
 const Public = () => <h3>Public</h3>;
 const Protected = () => <h3>Protected</h3>;
 
-const fakeAuth = {
-  user: {},
-  isAdmin: false,
-  authenticate() {
-    axios.get("/api/authenticate/user").then(response => {
-      console.log(response.data);
-      if (!!response.data.user) {
-        console.log("THERE IS A USER");
-        this.user = response.data.user;
-        fakeAuth.isAdmin = response.data.user.isAdmin;
-        console.log("is admin", fakeAuth.user.isAdmin);
-      } else {
-        this.user = {};
-        this.isAdmin = false
-      }
-    });
-  }
-};
-
 class Login extends React.Component {
   render() {
     return (
@@ -52,30 +33,60 @@ class Login extends React.Component {
   }
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      fakeAuth.user.isAdmin ? (
+      auth ? (
         <Component {...props} />
-      ) : (
+      ) : (auth === null ? (<span>Loading ...</span>) :
         <Redirect
           to={{
             pathname: "/login",
             state: { from: props.location }
           }}
-        />
-      )
+      /> 
+    )
+        
     }
   />
 );
 
 class App extends Component {
+  state = {
+    user: {},
+    isAdmin: null,
+  };
+
+  authenticate() {
+    axios.get("/api/authenticate/user").then(response => {
+      console.log("response data", response.data);
+      if (!!response.data.user) {
+        console.log("THERE IS A USER");
+        this.setState({
+          user: response.data.user,
+          isAdmin: response.data.user.isAdmin
+        })
+        console.log(response.data.user);
+        // this.user = response.data.user;
+        // this.isAdmin = response.data.user.isAdmin;
+        console.log("is admin", this.state.isAdmin);
+      } else {
+        this.setState({
+          user: {},
+          isAdmin: false
+        })
+      }
+    });
+  }
+
+
   componentDidMount() {
-    fakeAuth.authenticate();
+    this.authenticate();
   }
 
   render() {
+    console.log("state", this.state);
     return (
       <Router>
         <div>
@@ -83,10 +94,10 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={Home} />
             {/* <Route path="/home" component={Home} /> */}
-            <PrivateRoute path="/home" component={Home} />
+            <PrivateRoute path="/home" component={Home} auth={this.state.isAdmin} />
             <Route path="/public" component={Public} />
             <Route path="/login" component={Login} />
-            <PrivateRoute path="/protected" component={Protected} />
+            <PrivateRoute path="/protected" component={Protected} auth={this.state.isAdmin}/>
             <Route component={NoMatch} />
           </Switch>
         </div>

@@ -16,6 +16,9 @@ class Nav extends Component {
             <Link className="nav-item nav-link" to="/assingments">
               Assignments
             </Link>
+            <Link className="nav-item nav-link" to="/home">
+              Link to home <span className="sr-only">(current)</span>
+            </Link>
           </div>
         </div>
       </nav>
