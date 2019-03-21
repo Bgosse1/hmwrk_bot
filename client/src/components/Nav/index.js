@@ -10,7 +10,7 @@ class Nav extends Component {
         </Link>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link className="nav-item nav-link" to="/add">
+            {/* <Link className="nav-item nav-link" to="/add">
               Add Assignment <span className="sr-only">(current)</span>
             </Link>
             <Link className="nav-item nav-link" to="/assingments">
@@ -18,7 +18,7 @@ class Nav extends Component {
             </Link>
             <Link className="nav-item nav-link" to="/home">
               Link to home <span className="sr-only">(current)</span>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </nav>

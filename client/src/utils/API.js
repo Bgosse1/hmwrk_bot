@@ -12,11 +12,5 @@ export default {
   },
   updateAssignment: function(assignmentData) {
     return axios.put("/api/assignments/" + assignmentData.id, assignmentData);
-  },
-  Authenticated: () => {
-    console.log("in authenticated");
-    return axios.get("/api/authenticate");
-    // window.location("/api/authenticate");
   }
-
 };

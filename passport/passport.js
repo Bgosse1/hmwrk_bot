@@ -13,7 +13,6 @@ module.exports = function() {
       },
       function(accessToken, refreshToken, profile, cb) {
         isAdmin(profile);
-        console.log("profile",profile);
         return cb(null, profile);
       }
     )
@@ -35,11 +34,9 @@ function isAdmin(profile) {
       admin = true;
     }
   }
-  console.log("profile " + profile.username);
   db.User.findOne({ userName: profile.username }, (err, userMatch) => {
      if (err) {
       console.log("err");
-       //return done(null, false);
      }
      if (userMatch) {
        console.log("match", userMatch);
@@ -51,7 +48,6 @@ function isAdmin(profile) {
       githubUser.save((err, savedUser) => {
         if(err){
           console.log("error saving")
-          //return done(null, false);
         }
         else{
           return  savedUser
