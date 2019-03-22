@@ -9,9 +9,7 @@ import "./App.css";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import NoMatch from "./pages/NoMatch";
-import API from "../src/utils/API";
 import axios from "axios";
-import passport from "passport";
 import Login from "./components/Login";
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => (
@@ -42,7 +40,6 @@ class App extends Component {
 
   authenticate() {
     axios.get("/api/authenticate/user").then(response => {
-      console.log("response data", response.data);
       if (!!response.data.user) {
         this.setState({
           user: response.data.user,
