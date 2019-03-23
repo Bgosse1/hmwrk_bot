@@ -9,5 +9,8 @@ export default {
   },
   saveAssignment: function(assignmentData) {
     return axios.post("/api/assignments", assignmentData);
+  },
+  updateAssignment: function(assignmentData) {
+    return axios.put("/api/assignments/" + assignmentData.id, assignmentData);
   }
 };
