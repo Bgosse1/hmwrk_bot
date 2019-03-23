@@ -164,7 +164,7 @@ class Home extends Component {
         </Row>
         <Modal show={this.state.modal} onHide={this.handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>{this.state.assignmentName}</Modal.Title>
           </Modal.Header>
           <form>
             <Input
@@ -217,10 +217,7 @@ class Home extends Component {
             >
               Delete
             </Button>
-            <Button
-              variant="primary"
-              onClick={this.handleUpdateAssignment}
-            >
+            <Button variant="primary" onClick={this.handleUpdateAssignment}>
               Save Changes
             </Button>
           </Modal.Footer>
