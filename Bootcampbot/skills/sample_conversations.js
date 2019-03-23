@@ -11,14 +11,41 @@ through the conversation are chosen based on the user's response.
 
 module.exports = function(controller) {
 
-    controller.hears(['color'], 'direct_message,direct_mention', function(bot, message) {
+    controller.hears(['Anon'], 'direct_message,direct_mention', function(bot, message) {
 
         bot.startConversation(message, function(err, convo) {
-            convo.say('This is an example of using convo.ask with a single callback.');
 
-            convo.ask('What is your favorite color?', function(response, convo) {
+            convo.ask('What would you like to ask?', function(response, convo) {
 
-                convo.say('Cool, I like ' + response.text + ' too!');
+                // Forwarding the message to a specific channel
+                bot.say(
+                    {
+                      text: 'A student has a anonymous question' + response.text,
+                      channel: 'CH5ET4YDN' // a valid slack channel, group, mpim, or im ID
+                    }
+                  );
+                convo.next();
+
+            });
+        });
+
+    });
+
+
+
+    controller.hears(['ping'], 'direct_message,direct_mention', function(bot, message) {
+
+        bot.startConversation(message, function(err, convo) {
+
+            convo.ask("I will ping the T.A's for you?", function(response, convo) {
+
+                // Forwarding the message to a specific channel
+                bot.say(
+                    {
+                      text: username + "needs some assistance",
+                      channel: 'CH5ET4YDN' // a valid slack channel, group, mpim, or im ID
+                    }
+                  );
                 convo.next();
 
             });
