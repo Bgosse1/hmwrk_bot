@@ -15,8 +15,8 @@ router.get('/user', (req, res, next) => {
 //Matches with "/api/authenticate/return"
 router.route("/return").get(
   passport.authenticate("github", {
-    failureRedirect: "http://localhost:3000/login",
-    successRedirect: "http://localhost:3000/home"
+		failureRedirect: process.env.FRONTEND_URL+"login",
+    successRedirect: process.env.FRONTEND_URL+"home",
   })
 );
 
