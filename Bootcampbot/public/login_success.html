@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+    <head>
+        <title>My Botkit Bot</title>
+        <link rel="stylesheet" href="/styles.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+        
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDLUe3J4koPliZbhxHxJKk3kTMLC0C8MX0",
+    authDomain: "bootcampbot-c68f1.firebaseapp.com",
+    databaseURL: "https://bootcampbot-c68f1.firebaseio.com",
+    projectId: "bootcampbot-c68f1",
+    storageBucket: "bootcampbot-c68f1.appspot.com",
+    messagingSenderId: "590766644495"
+  };
+  firebase.initializeApp(config);
+</script>
+
+        <script>
+
+            function getCookie(name) {
+              var value = "; " + document.cookie;
+              var parts = value.split("; " + name + "=");
+              if (parts.length == 2) return parts.pop().split(";").shift();
+            }
+
+            function generateSlackLink() {
+
+                var team_id = getCookie('team_id');
+                var bot_id = getCookie('bot_user_id');
+
+                if (team_id && bot_id) {
+                    var url = 'slack://user?team=' + team_id + '&id=' + bot_id;
+                    $('#slack_link').attr('href',url);
+                }
+
+
+            }
+
+            $(function() {
+                generateSlackLink();
+            });
+
+        </script>
+
+
+    </head>
+    <body>
+        <div class="wrapper">
+            <div>
+                <h1>Success! <a href="slack://open" id="slack_link">Your new bot is waiting!</a></h1>
+            </div>
+        </div>
+    </body>
+</html>
