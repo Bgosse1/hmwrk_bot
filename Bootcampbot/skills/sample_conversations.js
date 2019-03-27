@@ -20,7 +20,7 @@ module.exports = function(controller) {
                 // Forwarding the message to a specific channel
                 bot.say(
                     {
-                      text: 'A student has a anonymous question ' + response.text,
+                      text: 'A student has a anonymous question ' + response.text + response,
                       channel: 'CH5ET4YDN' // a valid slack channel, group, mpim, or im ID
                     }
                   );
@@ -42,7 +42,7 @@ module.exports = function(controller) {
                 // Forwarding the message to a specific channel
                 bot.say(
                     {
-                      text: response.user + " needs some assistance",
+                      text: " A student needs some assistance: " + response.username,
                       channel: 'CH5ET4YDN' // a valid slack channel, group, mpim, or im ID
                     }
                   );
