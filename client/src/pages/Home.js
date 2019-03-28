@@ -109,8 +109,18 @@ class Home extends Component {
                 <strong>Welcome to the Bootcamp Bot Admin App</strong>
               </h1>
               <h2 className="text-center">
-                You can add, update or delete assignments
+                You can add, update or delete assignments.
               </h2>
+              <h3 className="text-center">The Bot might be
+                Sleeping, Click to wake it up.
+              <a 
+                href="https://hmwrkbot.herokuapp.com/"
+                className="btn btn-primary btn-lg active ml-3"
+                role="button"
+              >
+                Wake Up
+              </a>
+              </h3>
             </Jumbotron>
           </Col>
         </Row>
