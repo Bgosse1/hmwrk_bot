@@ -117,6 +117,7 @@ class Home extends Component {
                 href="https://hmwrkbot.herokuapp.com/"
                 className="btn btn-primary btn-lg active ml-3"
                 role="button"
+                target="_blank"
               >
                 Wake Up
               </a>
