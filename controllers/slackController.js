@@ -1,5 +1,5 @@
 const db = require("../models");
-var moment = require("moment");
+let moment = require("moment");
 moment.locale();
 
 module.exports = {
