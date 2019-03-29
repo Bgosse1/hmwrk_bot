@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { ListItem } from "../List";
 import { Row, Col } from "../Grid";
 import "./style.css";
+let moment = require("moment");
+moment.locale();
 
 class Assignment extends Component {
   render() {
@@ -31,6 +33,11 @@ class Assignment extends Component {
         <Row>
           <Col size="md-6">
             <p className="font-italic small">{this.props.isRequired ? "Required" : "Optional"}</p>
+          </Col>
+        </Row>
+        <Row>
+          <Col size="md-6">
+            <p className="font-italic small">Due Date: {moment(this.props.dueDate).format("MMMM Do YYYY, h:mm a")}</p>
           </Col>
         </Row>
         <Row>
