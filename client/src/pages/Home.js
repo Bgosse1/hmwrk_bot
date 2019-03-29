@@ -7,6 +7,8 @@ import Assignment from "../components/Assignment";
 import AddAssignment from "../components/addAssignment";
 import { Input, TextArea, SelectControl } from "../components/Form";
 import { Modal, Button } from "react-bootstrap";
+let moment = require("moment");
+moment.locale();
 
 class Home extends Component {
   state = {
@@ -61,7 +63,7 @@ class Home extends Component {
       dueDate: assignment.dueDate,
       isRequired: assignment.isRequired,
       assignmentDetails: assignment.assignmentDetails,
-      assignmentLink: assignment.assignmentDetails,
+      assignmentLink: assignment.assignmentLink,
       completed: false,
       id: assignment._id
     });
