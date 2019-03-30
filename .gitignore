@@ -62,3 +62,4 @@ typings/
 
 # botkit data file
 .data
+.DS_Store

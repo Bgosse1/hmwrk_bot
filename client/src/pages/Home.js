@@ -28,9 +28,9 @@ class Home extends Component {
     });
   };
 
-  handleUpdateAssignment = id => {
-    console.log(id);
-  };
+  // handleUpdateAssignment = id => {
+  //   console.log(id);
+  // };
 
   getAssignments = () => {
     API.getAssignments()
