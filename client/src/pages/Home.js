@@ -90,7 +90,7 @@ class Home extends Component {
       dueDate: this.state.dueDate,
       isRequired: this.state.isRequired,
       assignmentDetails: this.state.assignmentDetails,
-      assignmentLink: this.state.assignmentDetails,
+      assignmentLink: this.state.assignmentLink,
       completed: false,
       id: this.state.id
     })
